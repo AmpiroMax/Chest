@@ -1,0 +1,31 @@
+# Build directories
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+
+# Compiled object files, libraries, executables
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.out
+*.a
+*.lib
+
+# Editor/project files
+*.user
+*.suo
+*.vcxproj*
+*.DS_Store
+*.swp
+*.idea/
+*.vscode/
+
+# Generated files
+*.log
+
+# Ignore config files
+config/game.json
