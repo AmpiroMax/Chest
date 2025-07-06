@@ -1,0 +1,41 @@
+{
+    "resources_path": "resources/",
+    "map_foulder": "maps/",
+    "textures_path": "textures/",
+    "default_level": "level06.json",
+    "player": {
+        "speed": 0.1,
+        "sprite": "player",
+        "max_health": 100
+    },
+    "camera": {
+        "width": 800,
+        "height": 600,
+        "zoom": 1.0
+    },
+    "mob_defaults": {
+        "bat": {
+            "speed": 2.5,
+            "sprite": "bat",
+            "health": 10
+        },
+        "orc": {
+            "speed": 1.7,
+            "sprite": "orc",
+            "health": 30
+        }
+    },
+    "window": {
+        "size": [
+            800,
+            600
+        ],
+        "window_name": "ChestGame"
+    },
+    "map_textures": [
+        "bad_texture",
+        "floor_stone",
+        "wood_box",
+        "wall_brick"
+    ]
+}

@@ -1,9 +1,12 @@
 # Build directories
 build/
+.build_mac/
+.build_win/
 cmake-build-*/
 CMakeFiles/
 CMakeCache.txt
 Makefile
+
 
 # Compiled object files, libraries, executables
 *.o
@@ -27,5 +30,4 @@ Makefile
 # Generated files
 *.log
 
-# Ignore config files
-config/game.json
+
