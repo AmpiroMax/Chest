@@ -6,13 +6,13 @@
 
 class TimeSystem : public ISystem {
   public:
-    explicit TimeSystem(TimeManager &t) : tm_(t) {}
+    explicit TimeSystem(TimeManager &tmMgr) : timeManager(tmMgr) {}
     SystemSignal update() override {
-        tm_.tick();
+        timeManager.restart();
         return SystemSignal::None;
     }
 
   private:
-    TimeManager &tm_;
+    TimeManager &timeManager;
 };
 #endif

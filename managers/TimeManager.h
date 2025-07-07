@@ -1,14 +1,16 @@
 #ifndef TIME_MANAGER_H
 #define TIME_MANAGER_H
+
+#include "managers/IManager.h"
 #include <SFML/System/Clock.hpp>
 
 class TimeManager : public IManager {
   public:
-    void tick() { delta_ = clock_.restart().asSeconds(); }
-    float delta() const { return delta_; }
+    void restart() { delta = innerClock.restart().asMilliseconds(); }
+    float getElapsedTime() const { return innerClock.getElapsedTime().asMilliseconds() + 1.0f; }
 
   private:
-    sf::Clock clock_;
-    float delta_ = 0.f;
+    sf::Clock innerClock;
+    float delta = 0.f;
 };
 #endif

@@ -10,11 +10,10 @@ class ToolSystem : public ISystem {
   public:
     enum class Mode { Cursor, Rect, Poly, Circle };
 
-    ToolSystem(EntityManager &guiEm, HIDManager &hid) : guiEntities_(guiEm), hid_(hid) {}
+    ToolSystem(EntityManager &guiEntMgr, HIDManager &hidMgr) : guiEntitiesManager(guiEntMgr), hidManager(hidMgr) {}
 
     SystemSignal update() override {
         drawToolbar();
-        // геометрическая логика будет позже
         return SystemSignal::None;
     }
 
@@ -25,8 +24,8 @@ class ToolSystem : public ISystem {
         ImGui::SetWindowSize({110.f, 180.f});
 
         auto btn = [&](const char *n, Mode m) {
-            if (ImGui::Selectable(n, mode_ == m))
-                mode_ = m;
+            if (ImGui::Selectable(n, mode == m))
+                mode = m;
         };
         btn("Cursor", Mode::Cursor);
         btn("Rect", Mode::Rect);
@@ -36,8 +35,8 @@ class ToolSystem : public ISystem {
         ImGui::End();
     }
 
-    EntityManager &guiEntities_;
-    HIDManager &hid_;
-    Mode mode_ = Mode::Cursor;
+    EntityManager &guiEntitiesManager;
+    HIDManager &hidManager;
+    Mode mode = Mode::Cursor;
 };
 #endif

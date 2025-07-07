@@ -6,13 +6,10 @@
 
 class OverlayRenderSystem : public ISystem {
   public:
-    explicit OverlayRenderSystem(WindowManager &w) : wnd_(w) {}
-    SystemSignal update() override {
-        // пока пусто: сетка / превью / подсветка появятся позже
-        return SystemSignal::None;
-    }
+    explicit OverlayRenderSystem(WindowManager &winMgr) : windowManager(winMgr) {}
+    SystemSignal update() override { return SystemSignal::None; }
 
   private:
-    WindowManager &wnd_;
+    WindowManager &windowManager;
 };
 #endif

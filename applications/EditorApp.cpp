@@ -12,25 +12,29 @@
 #include "systems/WindowEventSystem.h"
 
 EditorApp::EditorApp() {
+    buildManagers();
+    buildSystems();
+}
+
+void EditorApp::buildManagers() {
     GameConfig gameConfig("config/game.json");
 
     auto windowSize = gameConfig.getWindowSize();
     auto windowName = gameConfig.getWindowName();
     windowManager.recreate(windowSize, windowName);
-    guiManager.init(windowManager.getWindow());
-    buildSystems();
 }
 
 void EditorApp::buildSystems() {
     systems.push_back(std::make_unique<TimeSystem>(timeManager));
     systems.push_back(std::make_unique<WindowEventSystem>(windowManager));
     systems.push_back(std::make_unique<HIDSystem>(hidManager, windowManager));
-    systems.push_back(std::make_unique<GUISystem>(guiManager));
+    systems.push_back(std::make_unique<GUISystem>(windowManager, timeManager));
     systems.push_back(std::make_unique<ToolSystem>(guiEntities, hidManager));
     systems.push_back(std::make_unique<OverlayRenderSystem>(windowManager));
-    systems.push_back(std::make_unique<GUIRenderSystem>(guiManager, guiEntities));
+    systems.push_back(std::make_unique<GUIRenderSystem>(windowManager, guiEntities, timeManager));
     systems.push_back(std::make_unique<EventSystem>(eventManager));
     systems.push_back(std::make_unique<RenderSystem>(windowManager, gameEntities, resourceManager, cameraManager, debugManager));
+    // systems.push_back(std::make_unique<DebugSystem>(gameEntities, cameraManager, nullptr, windowManager, hidManager, debugManager));
 }
 
 void EditorApp::run() {
@@ -44,6 +48,7 @@ void EditorApp::run() {
             }
         }
     }
-
-    guiManager.shutdown();
+    for (auto &system : systems) {
+        system->shutdown();
+    }
 }

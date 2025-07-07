@@ -6,6 +6,7 @@
 class ISystem {
   public:
     virtual ~ISystem() = default;
+    virtual void shutdown() {}
     virtual SystemSignal update() = 0;
 };
 

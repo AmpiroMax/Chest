@@ -5,7 +5,6 @@
 #include "managers/DebugManager.h"
 #include "managers/EntityManager.h"
 #include "managers/EventManager.h"
-#include "managers/GUIManager.h"
 #include "managers/HIDManager.h"
 #include "managers/ResourceManager.h"
 #include "managers/TimeManager.h"
@@ -18,10 +17,10 @@ class EditorApp {
     void run();
 
   private:
+    void buildManagers();
     void buildSystems();
 
     WindowManager windowManager;
-    GUIManager guiManager;
     TimeManager timeManager;
     HIDManager hidManager;
     EntityManager gameEntities;

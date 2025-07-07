@@ -11,10 +11,8 @@
 
 class DebugSystem : public ISystem {
   public:
-    DebugSystem(EntityManager &e, CameraManager &c, PhysicsManager &p, WindowManager &w, HIDManager &hidMgr,
-                DebugManager &debMgr)
-        : entityManager(e), cameraManager(c), physicsManager(p), windowManager(w), hidManager(hidMgr),
-          debugManager(debMgr) {}
+    DebugSystem(EntityManager &entMgr, CameraManager &camMgr, PhysicsManager &physMgr, WindowManager &winMgr, HIDManager &hidMgr, DebugManager &debMgr)
+        : entityManager(entMgr), cameraManager(camMgr), physicsManager(physMgr), windowManager(winMgr), hidManager(hidMgr), debugManager(debMgr) {}
 
     SystemSignal update() override;
 

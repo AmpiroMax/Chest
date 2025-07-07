@@ -2,21 +2,25 @@
 #define GUI_RENDER_SYSTEM_H
 
 #include "managers/EntityManager.h"
-#include "managers/GUIManager.h"
+#include "managers/TimeManager.h"
+#include "managers/WindowManager.h"
 #include "systems/ISystem.h"
+#include <imgui-SFML.h>
+#include <imgui.h>
 
 class GUIRenderSystem : public ISystem {
   public:
-    GUIRenderSystem(GUIManager &g, EntityManager &guiEm) : gui_(g), guiEntities_(guiEm) {}
+    GUIRenderSystem(WindowManager &winMgr, EntityManager &guiEm, TimeManager &timeMgr)
+        : windowManager(winMgr), guiEntitiesManager(guiEm), timeManager(timeMgr) {}
 
     SystemSignal update() override {
-        // Тут позже будет ImGui-код для кнопок/окон.
-        gui_.setStatus(GUIStatus::Render); // финал кадра ImGui
+        ImGui::SFML::Render(windowManager.getWindow());
         return SystemSignal::None;
     }
 
   private:
-    GUIManager &gui_;
-    EntityManager &guiEntities_; // хранит только GUI-entity
+    WindowManager &windowManager;
+    EntityManager &guiEntitiesManager;
+    TimeManager &timeManager;
 };
 #endif
