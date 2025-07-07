@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
+option(EDITOR_BUILD "Build map-editor executable" OFF)
+
 # Проверка целевой системы
 if(NOT DEFINED TARGET_SYSTEM)
     message(FATAL_ERROR "TARGET_SYSTEM is not defined. Please specify -DTARGET_SYSTEM=WIN or -DTARGET_SYSTEM=MAC.")
@@ -47,6 +49,14 @@ include_directories(
     /opt/homebrew/include
 )
 
+set(IMGUI_SFML_FIND_SFML OFF CACHE BOOL "ImGui-SFML will not search SFML")  # <-- добавлено
+set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/libs/imgui CACHE PATH "Path to Dear ImGui")
+add_subdirectory(libs/imgui-sfml)    # binding к SFML
+get_target_property(_defs ImGui-SFML COMPILE_DEFINITIONS)
+list(REMOVE_ITEM _defs IMGUI_DISABLE_OBSOLETE_NAV_INPUTS)
+set_target_properties(ImGui-SFML PROPERTIES COMPILE_DEFINITIONS "${_defs}")
+
+
 # Системные параметры и линковка
 if(TARGET_SYSTEM STREQUAL "WIN")
     set(CMAKE_SYSTEM_NAME Windows)
@@ -78,7 +88,6 @@ if(TARGET_SYSTEM STREQUAL "WIN")
         box2d
         glad
         glfw
-        imgui
         sajson
         freetype
         flac
@@ -118,7 +127,6 @@ elseif(TARGET_SYSTEM STREQUAL "MAC")
         box2d
         glad
         glfw
-        imgui
         sajson
     )
 
@@ -129,8 +137,16 @@ endif()
 message("CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 message("LIBRARIES: ${LIBRARIES}")
 
-# Создание исполняемого файла
+# ───────── исполняемый файл «игры» ─────────
 add_executable(chest ${SOURCE_FILES})
+target_link_libraries(chest PRIVATE ${LIBRARIES} ImGui-SFML::ImGui-SFML)
 
-# Линкуем проект с библиотеками
-target_link_libraries(chest ${LIBRARIES})
+# ───────── исполняемый файл «редактора» ─────────
+if(EDITOR_BUILD)
+    add_executable(chest_editor ${SOURCE_FILES})
+    target_compile_definitions(chest_editor PRIVATE EDITOR_BUILD)
+    target_link_libraries(chest_editor PRIVATE ${LIBRARIES} ImGui-SFML::ImGui-SFML)
+endif()
+
+message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+message(STATUS "LIBRARIES: ${LIBRARIES}")

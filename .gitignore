@@ -30,4 +30,8 @@ Makefile
 # Generated files
 *.log
 
+# Side libs
+/libs*
 
+# Imgui unknown files
+imgui.ini
