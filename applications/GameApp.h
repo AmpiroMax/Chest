@@ -9,6 +9,7 @@
 #include "managers/HIDManager.h"
 #include "managers/PhysicsManager.h"
 #include "managers/ResourceManager.h"
+#include "managers/ToolStateManager.h"
 #include "managers/WindowManager.h"
 
 #include "systems/ISystem.h"
@@ -29,6 +30,7 @@ class GameApp {
     HIDManager hidManager;
     DebugManager debugManager;
     EventManager eventManager;
+    ToolStateManager toolStateManager;
     std::vector<std::unique_ptr<ISystem>> systems;
 };
 

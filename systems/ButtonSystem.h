@@ -22,7 +22,7 @@ class ButtonSystem : public ISystem {
             if (!btn || !btn->enabled)
                 continue;
 
-            bool inside = btn->bounds.contains(mouse.x, mouse.y);
+            bool inside = btn->pos.x <= mouse.x && mouse.x <= btn->pos.x + btn->size.x && btn->pos.y <= mouse.y && mouse.y <= btn->pos.y + btn->size.y;
 
             switch (btn->state) {
             case UIButtonComponent::State::Default:

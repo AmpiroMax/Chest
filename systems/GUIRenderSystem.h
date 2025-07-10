@@ -2,25 +2,24 @@
 #define GUI_RENDER_SYSTEM_H
 
 #include "managers/EntityManager.h"
-#include "managers/TimeManager.h"
+#include "managers/EventManager.h"
+#include "managers/ToolStateManager.h"
 #include "managers/WindowManager.h"
 #include "systems/ISystem.h"
-#include <imgui-SFML.h>
-#include <imgui.h>
 
 class GUIRenderSystem : public ISystem {
   public:
-    GUIRenderSystem(WindowManager &winMgr, EntityManager &guiEm, TimeManager &timeMgr)
-        : windowManager(winMgr), guiEntitiesManager(guiEm), timeManager(timeMgr) {}
+    GUIRenderSystem(WindowManager &winMgr, EntityManager &guiEm, ToolStateManager &toolMgr, EventManager &evtMgr);
 
-    SystemSignal update() override {
-        ImGui::SFML::Render(windowManager.getWindow());
-        return SystemSignal::None;
-    }
+    SystemSignal update() override;
 
   private:
+    void renderButtons();
+
     WindowManager &windowManager;
     EntityManager &guiEntitiesManager;
-    TimeManager &timeManager;
+    ToolStateManager &toolStateManager;
+    EventManager &eventManager;
 };
-#endif
+
+#endif /* GUI_RENDER_SYSTEM_H */

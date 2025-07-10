@@ -8,6 +8,7 @@
 class ButtonFactory {
   public:
     static Entity *create(const Vec2 &windowSize);
+    static Entity *makeButton(const std::string &id, const std::string &label, const Vec2 &posPx);
 };
 
 #endif // BUTTON_FACTORY_H

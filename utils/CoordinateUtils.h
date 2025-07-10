@@ -20,33 +20,26 @@
 //     return Vec2(screenX, screenY);
 // }
 
-// inline Vec2 screenToWorld(const Vec2 &screenPos, const CameraManager &camera, const WindowManager &window) {
-//     Vec2 camCenter = camera.getCenter();
-//     float zoom = camera.getZoom();
-//     Vec2 viewport = camera.getViewportSize();
+inline Vec2 fromWorldToRender(const Vec2 &worldPos) { return Vec2(worldPos.x * RENDER_SCALE, -worldPos.y * RENDER_SCALE); }
+inline Vec2 fromRenderToWorld(const Vec2 &renderPos) { return Vec2(renderPos.x / RENDER_SCALE, -renderPos.y / RENDER_SCALE); }
 
-//     float left = camCenter.x - viewport.x / 2.0f / zoom;
-//     float top = camCenter.y - viewport.y / 2.0f / zoom;
+inline Vec2 screenToWorld(const Vec2 &screenPos, const CameraManager &camera) {
+    Vec2 camCenter = camera.getCenter();
+    float zoom = camera.getZoom();
+    Vec2 windowSize = camera.getViewportSize();
+    Vec2 deltaScreenPos = screenPos - windowSize / 2.0f;
+    Vec2 worldPos = camCenter + fromRenderToWorld(deltaScreenPos);
+    // float zoom = camera.getZoom();
+    // Vec2 viewport = camera.getViewportSize();
+    // Vec2 viewportInGame = viewport / RENDER_SCALE;
+    // Vec2 topLeft = camCenter - viewportInGame / 2.0f / zoom;
+    // Vec2 worldPos = topLeft + fromRenderToWorld(screenPos);
 
-//     float worldX = screenPos.x / zoom + left;
-//     float worldY = screenPos.y / zoom + top;
-
-//     return Vec2(worldX, worldY);
-// }
-
-inline Vec2 fromWorldToRender(const Vec2 &worldPos) {
-    return Vec2(worldPos.x * RENDER_SCALE, -worldPos.y * RENDER_SCALE);
-}
-inline Vec2 fromRenderToWorld(const Vec2 &renderPos) {
-    return Vec2(renderPos.x / RENDER_SCALE, -renderPos.y / RENDER_SCALE);
+    return worldPos;
 }
 
-inline Vec2 fromWorldToPhysics(const Vec2 &worldPos) {
-    return Vec2(worldPos.x * PHYSIC_SCALE, worldPos.y * PHYSIC_SCALE);
-}
-inline Vec2 fromPhysicsToWorld(const Vec2 &physicsPos) {
-    return Vec2(physicsPos.x / PHYSIC_SCALE, physicsPos.y / PHYSIC_SCALE);
-}
+inline Vec2 fromWorldToPhysics(const Vec2 &worldPos) { return Vec2(worldPos.x * PHYSIC_SCALE, worldPos.y * PHYSIC_SCALE); }
+inline Vec2 fromPhysicsToWorld(const Vec2 &physicsPos) { return Vec2(physicsPos.x / PHYSIC_SCALE, physicsPos.y / PHYSIC_SCALE); }
 
 inline float fromWorldAngleToPhysics(float deg) { return deg * DEG2RAD; }
 inline float fromPhysicsAngleToWorld(float rad) { return rad * RAD2DEG; }

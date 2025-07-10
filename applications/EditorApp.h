@@ -6,8 +6,10 @@
 #include "managers/EntityManager.h"
 #include "managers/EventManager.h"
 #include "managers/HIDManager.h"
+#include "managers/PhysicsManager.h"
 #include "managers/ResourceManager.h"
 #include "managers/TimeManager.h"
+#include "managers/ToolStateManager.h"
 #include "managers/WindowManager.h"
 #include "systems/ISystem.h"
 
@@ -19,16 +21,18 @@ class EditorApp {
   private:
     void buildManagers();
     void buildSystems();
+    void initUI();
 
     WindowManager windowManager;
     TimeManager timeManager;
     HIDManager hidManager;
-    EntityManager gameEntities;
-    EntityManager guiEntities;
+    EntityManager entityManager;
     EventManager eventManager;
     ResourceManager resourceManager;
     CameraManager cameraManager;
     DebugManager debugManager;
+    ToolStateManager toolStateManager;
+    PhysicsManager physicsManager;
 
     std::vector<std::unique_ptr<ISystem>> systems;
 };

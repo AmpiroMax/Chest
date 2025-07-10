@@ -6,11 +6,12 @@
 
 class TimeManager : public IManager {
   public:
-    void restart() { delta = innerClock.restart().asMilliseconds(); }
-    float getElapsedTime() const { return innerClock.getElapsedTime().asMilliseconds() + 1.0f; }
+    void restart() { deltaSec = std::max(innerClock.restart().asSeconds(), 0.000001f); }
+
+    float delta() const { return deltaSec; }
 
   private:
     sf::Clock innerClock;
-    float delta = 0.f;
+    float deltaSec = 1.0f / 60.0f;
 };
 #endif

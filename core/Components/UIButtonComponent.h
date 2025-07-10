@@ -3,21 +3,28 @@
 #define UI_BUTTON_COMPONENT_H
 
 #include "IComponent.h"
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/Rect.hpp>
+#include "utils/Vec2.h"
 #include <string>
 
 struct UIButtonComponent : public IComponent {
-    std::string id;       // "pause", "tool_brush" …
-    std::string label;    // что писать на кнопке
-    sf::FloatRect bounds; // экранные координаты (px)
+    struct Color {
+        uint8_t r{50};
+        uint8_t g{150};
+        uint8_t b{255};
+    };
+
+    std::string id;    // "pause", "tool_brush" …
+    std::string label; // что писать на кнопке
+    Vec2 pos;
+    Vec2 size;
     bool enabled = true;
 
-    enum class State { Default, Hover, Pressed } state = State::Default;
+    enum class State { Default, Hover, Pressed };
+    State state = State::Default;
 
     // цвета для каждого состояния – можно подменять из конфига
-    sf::Color colorDefault = {20, 120, 255};
-    sf::Color colorHover = {50, 150, 255};
-    sf::Color colorPressed = {10, 90, 200};
+    Color colorDefault{20, 120, 255};
+    Color colorHover{50, 150, 255};
+    Color colorPressed{10, 90, 200};
 };
 #endif

@@ -8,13 +8,13 @@
 
 class Entity {
   private:
-    static int nextId;
-    int id;
+    static size_t nextId;
+    size_t id;
     std::unordered_map<std::type_index, std::unique_ptr<IComponent>> components;
 
   public:
     Entity() : id(nextId++) {}
-    int getId() const { return id; }
+    size_t getId() const { return id; }
 
     template <typename T> void addComponent(std::unique_ptr<T> component) {
         static_assert(std::is_base_of<IComponent, T>::value, "T must inherit from IComponent");
@@ -29,9 +29,7 @@ class Entity {
         return nullptr;
     }
 
-    template <typename T> bool hasComponent() const {
-        return components.find(std::type_index(typeid(T))) != components.end();
-    }
+    template <typename T> bool hasComponent() const { return components.find(std::type_index(typeid(T))) != components.end(); }
 
     template <typename T> void removeComponent() { components.erase(std::type_index(typeid(T))); }
 };

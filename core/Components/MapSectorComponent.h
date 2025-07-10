@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "utils/MapSectorData.h"
+
 struct MapSectorComponent : public IComponent {
     std::string name;
     std::string texture;
@@ -43,6 +45,8 @@ struct MapSectorComponent : public IComponent {
         float rotation = 0.0f;
     };
     std::optional<TextureMapping> textureMapping;
+
+    MapSectorData mapSectorData;
 };
 
 #endif // MAP_SECTOR_COMPONENT_H

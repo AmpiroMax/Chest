@@ -1,16 +1,18 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include "core/Entity.h" // если нужен Entity, иначе убери
+#include "core/Entity.h"
+#include "managers/ToolStateManager.h"
 #include <string>
 
 // --- GUI --------------------------------------------------
 struct ButtonClickedEvent {
-    std::string id; // "pause", "tool_brush", ...
+    std::string id;
 };
 
+// --- Tools -----------------------------------------------
 struct ToolChangedEvent {
-    enum class Tool { Brush, Fill, Eraser } newTool;
+    ToolType tool;
 };
 
 // --- Gameplay ---------------------------------------------

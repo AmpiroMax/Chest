@@ -10,6 +10,7 @@
 #include "systems/DebugSystem.h"
 #include "systems/EntityControlSystem.h"
 #include "systems/EventSystem.h"
+#include "systems/GUIRenderSystem.h"
 #include "systems/HIDSystem.h"
 #include "systems/PhysicsSystem.h"
 #include "systems/RenderSystem.h"
@@ -30,7 +31,7 @@ GameApp::GameApp() {
     resourceManager.loadTexturesFromList(textureNames, gameConfig.getTexturePath());
 
     // 2. Загружаем карту, создаём WorldMap entity (physicsManager используется для добавления физики)
-    auto worldEntities = WorldMapFactory::create(gameConfig, resourceManager, physicsManager);
+    auto worldEntities = WorldMapFactory::loadGameMap(gameConfig, resourceManager, physicsManager);
     for (Entity *ent : worldEntities)
         entityManager.addEntity(ent);
 
@@ -58,6 +59,7 @@ GameApp::GameApp() {
     systems.push_back(std::make_unique<EventSystem>(eventManager));
     systems.push_back(std::make_unique<DebugSystem>(entityManager, cameraManager, physicsManager, windowManager, hidManager, debugManager));
     systems.push_back(std::make_unique<RenderSystem>(windowManager, entityManager, resourceManager, cameraManager, debugManager));
+    systems.push_back(std::make_unique<GUIRenderSystem>(windowManager, entityManager, toolStateManager, eventManager));
 }
 
 void GameApp::run() {

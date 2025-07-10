@@ -3,7 +3,9 @@
 #include "utils/Vec2.h"
 #include <string>
 
-struct GUIWindowComponent {
+#include "IComponent.h"
+
+struct GUIWindowComponent : IComponent {
     enum class Type { Inspector /*, Inventory*/ };
 
     Type type = Type::Inspector;
@@ -16,4 +18,5 @@ struct GUIWindowComponent {
     bool closable = true;
     bool visible = true;
 };
+
 #endif

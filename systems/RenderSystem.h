@@ -13,17 +13,14 @@
 
 class RenderSystem : public ISystem {
   public:
-    RenderSystem(WindowManager &winMgr, EntityManager &entMgr, ResourceManager &resMgr, CameraManager &camMgr,
-                 DebugManager &debMgr)
-        : windowManager(winMgr), entityManager(entMgr), resourceManager(resMgr), cameraManager(camMgr),
-          debugManager(debMgr) {}
+    RenderSystem(WindowManager &winMgr, EntityManager &entMgr, ResourceManager &resMgr, CameraManager &camMgr, DebugManager &debMgr)
+        : windowManager(winMgr), entityManager(entMgr), resourceManager(resMgr), cameraManager(camMgr), debugManager(debMgr) {}
 
     SystemSignal update() override;
 
   private:
     void renderMap(sf::RenderWindow &window);
     void renderEntities(sf::RenderWindow &window);
-    void renderButtons(sf::RenderWindow &window);
 
     // В RenderSystem.h (в секции private):
 

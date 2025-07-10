@@ -49,12 +49,12 @@ include_directories(
     /opt/homebrew/include
 )
 
-set(IMGUI_SFML_FIND_SFML OFF CACHE BOOL "ImGui-SFML will not search SFML")  # <-- добавлено
-set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/libs/imgui CACHE PATH "Path to Dear ImGui")
-add_subdirectory(libs/imgui-sfml)    # binding к SFML
-get_target_property(_defs ImGui-SFML COMPILE_DEFINITIONS)
-list(REMOVE_ITEM _defs IMGUI_DISABLE_OBSOLETE_NAV_INPUTS)
-set_target_properties(ImGui-SFML PROPERTIES COMPILE_DEFINITIONS "${_defs}")
+# set(IMGUI_SFML_FIND_SFML OFF CACHE BOOL "ImGui-SFML will not search SFML")  # <-- добавлено
+# set(IMGUI_DIR ${CMAKE_SOURCE_DIR}/libs/imgui CACHE PATH "Path to Dear ImGui")
+# add_subdirectory(libs/imgui-sfml)    # binding к SFML
+# get_target_property(_defs ImGui-SFML COMPILE_DEFINITIONS)
+# list(REMOVE_ITEM _defs IMGUI_DISABLE_OBSOLETE_NAV_INPUTS)
+# set_target_properties(ImGui-SFML PROPERTIES COMPILE_DEFINITIONS "${_defs}")
 
 
 # Системные параметры и линковка
@@ -139,13 +139,15 @@ message("LIBRARIES: ${LIBRARIES}")
 
 # ───────── исполняемый файл «игры» ─────────
 add_executable(chest ${SOURCE_FILES})
-target_link_libraries(chest PRIVATE ${LIBRARIES} ImGui-SFML::ImGui-SFML)
+target_link_libraries(chest PRIVATE ${LIBRARIES})
+# target_link_libraries(chest PRIVATE ${LIBRARIES} ImGui-SFML::ImGui-SFML)
 
 # ───────── исполняемый файл «редактора» ─────────
 if(EDITOR_BUILD)
     add_executable(chest_editor ${SOURCE_FILES})
     target_compile_definitions(chest_editor PRIVATE EDITOR_BUILD)
-    target_link_libraries(chest_editor PRIVATE ${LIBRARIES} ImGui-SFML::ImGui-SFML)
+    target_link_libraries(chest_editor PRIVATE ${LIBRARIES})
+    # target_link_libraries(chest_editor PRIVATE ${LIBRARIES} ImGui-SFML::ImGui-SFML)
 endif()
 
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")

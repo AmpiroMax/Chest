@@ -1,42 +1,57 @@
 #ifndef TOOL_SYSTEM_H
 #define TOOL_SYSTEM_H
 
+#include "core/Components/RectPreviewComponent.h"
+#include "core/Entity.h"
+#include "events/Events.h"
+#include "factories/WorldMapFactory.h"
 #include "managers/EntityManager.h"
+#include "managers/EventManager.h"
 #include "managers/HIDManager.h"
+#include "managers/PhysicsManager.h"
+#include "managers/ResourceManager.h"
+#include "managers/ToolStateManager.h"
 #include "systems/ISystem.h"
-#include <imgui.h>
+#include "utils/Vec2.h"
+
+struct RectToolSystemState {
+    enum class State { Idle, Drawing } state = State::Idle;
+    Vec2 firstPointCoordinatesInGame;
+    Vec2 secondPointCoordinatesInGame;
+    size_t previewEntityId = -1;
+};
+
+struct ToolSystemState {
+    RectToolSystemState rect;
+};
 
 class ToolSystem : public ISystem {
   public:
-    enum class Mode { Cursor, Rect, Poly, Circle };
+    ToolSystem(EntityManager &entityManager, ToolStateManager &ts, HIDManager &hid, EventManager &em, ResourceManager &resourceManager,
+               PhysicsManager &physicsManager, CameraManager &cameraManager);
 
-    ToolSystem(EntityManager &guiEntMgr, HIDManager &hidMgr) : guiEntitiesManager(guiEntMgr), hidManager(hidMgr) {}
-
-    SystemSignal update() override {
-        drawToolbar();
-        return SystemSignal::None;
-    }
+    SystemSignal update() override;
 
   private:
-    void drawToolbar() {
-        ImGui::Begin("Tools", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-        ImGui::SetWindowPos({8.f, 50.f});
-        ImGui::SetWindowSize({110.f, 180.f});
+    void onButtonClick(const ButtonClickedEvent &);
 
-        auto btn = [&](const char *n, Mode m) {
-            if (ImGui::Selectable(n, mode == m))
-                mode = m;
-        };
-        btn("Cursor", Mode::Cursor);
-        btn("Rect", Mode::Rect);
-        btn("Poly", Mode::Poly);
-        btn("Circle", Mode::Circle);
+    // логика инструментов внутри одной системы
+    void tickCursor();
+    void tickRect();
+    void tickPolygon();
+    void tickCircle();
 
-        ImGui::End();
-    }
+    Entity *createRectSector(const Vec2 &firstPointInGameCoordinates);
 
-    EntityManager &guiEntitiesManager;
-    HIDManager &hidManager;
-    Mode mode = Mode::Cursor;
+    EntityManager &entityManager;
+    ToolStateManager &toolState;
+    HIDManager &hidMgr;
+    EventManager &evtMgr;
+    ResourceManager &resourceManager;
+    PhysicsManager &physicsManager;
+    CameraManager &cameraManager;
+
+    ToolSystemState state;
 };
-#endif
+
+#endif /* TOOL_SYSTEM_H */

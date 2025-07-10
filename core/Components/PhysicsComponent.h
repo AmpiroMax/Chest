@@ -26,13 +26,19 @@ struct PhysicsComponent : public IComponent {
             return rotation;
         }
     }
+    void setPosition(const Vec2 &position) {
+        this->position = position;
+        if (body) {
+            body->SetTransform(fromWorldToPhysics(position), rotation);
+        }
+    }
 
     // --- Служебные поля ---
     b2Body *body = nullptr; // Box2D, если физика есть
     PhysicBodyDef dynamicProperties;
 
-    Vec2 position = {0.0f, 0.0f}; // для dummy-физики (или инициализации до создания body)
-    float rotation = 0.0f;        // для dummy-физики (градусы, против часовой)
+    Vec2 position = {0.0f, 0.0f}; // В мировых координатах всегда!
+    float rotation = 0.0f;        // В мировых координатах всегда!
 };
 
 #endif // PHYSICS_COMPONENT_H
